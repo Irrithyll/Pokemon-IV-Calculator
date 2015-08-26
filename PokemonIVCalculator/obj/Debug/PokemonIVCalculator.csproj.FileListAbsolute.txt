@@ -1,0 +1,9 @@
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.exe.config
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.exe
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.pdb
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csprojResolveAssemblyReference.cache
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.Form1.resources
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.Properties.Resources.resources
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csproj.GenerateResource.Cache
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.exe
+c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.pdb
