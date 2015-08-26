@@ -1120,26 +1120,45 @@ namespace PokemonIVCalculator
             if (nature == "Naughty" || nature == "Lax" || nature == "Naive" || nature == "Rash") { natSPDEF = 0.9f; }
             if (nature == "Brave" || nature == "Relaxed" || nature == "Quiet" || nature == "Sassy") { natSPD = 0.9f; }
 
-            /*calculate HP IV*/
-            int HPIV = ((HPStat - 10) * 100) / level - 2 * baseStats[0] - HPEV / 4 - 100;
+            /*calculate HP IV*//*
+            This is the right formula (there is a minimum and maximum.)
+            HP IV Min=Ceiling(((Stat-10-Level)*(100/Level))-2*Base-EP)
+            HP IV Max=Floor((Stat-10+0.99999...-Level)*(100/Level)-2*Base-EP)
 
+            Other IV Min=Ceiling((Ceiling(Stat/Nature)-5)*(100/Level)-2*Base-EP)
+            Other IV Max=Floor((Ceiling((Stat+0.99999...)/Nature)-5)*(100/Level)-2*Base-EP)
+            */
 
-            /*calculate other IVs*/
-            float ATKIV = ((ATKStat / natATK - 5) * 100) / level - 2 * baseStats[1] - ATKEV / 4;
-            float DEFIV = ((DEFStat / natDEF - 5) * 100) / level - 2 * baseStats[2] - DEFEV / 4;
-            float SPATKIV = ((SPATKStat / natSPATK - 5) * 100) / level - 2 * baseStats[3] - SPATKEV / 4;
-            float SPDEFIV = ((SPDEFStat / natSPDEF - 5) * 100) / level - 2 * baseStats[4] - SPDEFEV / 4;
-            float SPDIV = ((SPDStat / natSPD - 5) * 100) / level - 2 * baseStats[5] - SPDEV / 4;
+            double HPIVMin = Math.Ceiling(((HPStat - 10d - level) * (100 / level)) - 2 * baseStats[0] - HPEV);
+            double HPIVMax = Math.Floor((HPStat - 10 + 0.99999 - level) * (100 / level) - 2 * baseStats[0] - HPEV);
 
-            IVHP.Text = HPIV.ToString();
-            IVATK.Text = ATKIV.ToString();
-            IVDEF.Text = DEFIV.ToString();
-            IVSPATK.Text = SPATKIV.ToString();
-            IVSPDEF.Text = SPDEFIV.ToString();
-            IVSPD.Text = SPDIV.ToString();
+            double ATKIVMin = Math.Ceiling((Math.Ceiling(ATKStat / natATK) - 5) * (100 / level) - 2 * baseStats[1] - ATKEV);
+            double ATKIVMax = Math.Floor((Math.Ceiling((ATKStat + 0.99999) / natATK) - 5) * (100 / level) - 2 * baseStats[1] - ATKEV);
 
-            if (HPIV < 0 || ATKIV < 0 || DEFIV < 0 || SPATKIV < 0 || SPDEFIV < 0 || SPDIV < 0) {
+            double DEFIVMin = Math.Ceiling((Math.Ceiling(DEFStat / natDEF) - 5) * (100 / level) - 2 * baseStats[2] - DEFEV);
+            double DEFIVMax = Math.Floor((Math.Ceiling((DEFStat + 0.99999) / natDEF) - 5) * (100 / level) - 2 * baseStats[2] - DEFEV); 
+
+            double SPATKIVMin = Math.Ceiling((Math.Ceiling(SPATKStat / natSPATK) - 5) * (100 / level) - 2 * baseStats[3] - SPATKEV);
+            double SPATKIVMax = Math.Floor((Math.Ceiling((SPATKStat + 0.99999) / natSPATK) - 5) * (100 / level) - 2 * baseStats[3] - SPATKEV);
+
+            double SPDEFIVMin = Math.Ceiling((Math.Ceiling(SPDEFStat / natSPDEF) - 5) * (100 / level) - 2 * baseStats[4] - SPDEFEV);
+            double SPDEFIVMax = Math.Floor((Math.Ceiling((SPDEFStat + 0.99999) / natSPDEF) - 5) * (100 / level) - 2 * baseStats[4] - SPDEFEV);
+
+            double SPDIVMin = Math.Ceiling((Math.Ceiling(SPDStat / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
+            double SPDIVMax = Math.Floor((Math.Ceiling((SPDStat + 0.99999) / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
+
+            if (HPIVMax < 0 || ATKIVMax < 0 || DEFIVMax < 0 || SPATKIVMax < 0 || SPDEFIVMax < 0 || SPDIVMax < 0)
+            {
                 labelerror.Text = "Error : Double check your Stats and EVs";
+            }
+            else {
+                IVHP.Text = (HPIVMin + "-" + HPIVMax).ToString();
+                IVATK.Text = (ATKIVMin + "-" + ATKIVMax).ToString();
+                IVDEF.Text = (DEFIVMin + "-" + DEFIVMax).ToString();
+                IVSPATK.Text = (SPATKIVMin + "-" + SPATKIVMax).ToString();
+                IVSPDEF.Text = (SPDEFIVMin + "-" + SPDEFIVMax).ToString();
+                IVSPD.Text = (SPDIVMin + "-" + SPDIVMax).ToString();
+
             }
 
             return;

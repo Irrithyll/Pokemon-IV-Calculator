@@ -7,3 +7,12 @@ c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\Pokemon
 c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csproj.GenerateResource.Cache
 c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.exe
 c:\users\zadow\documents\visual studio 2013\Projects\PokemonIVCalculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.pdb
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.exe.config
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.exe
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.exe
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\PokemonIVCalculator.pdb
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csprojResolveAssemblyReference.cache
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.Form1.resources
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.Properties.Resources.resources
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csproj.GenerateResource.Cache
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.pdb
