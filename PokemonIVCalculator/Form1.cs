@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PokemonIVCalculator
 {
@@ -1066,7 +1067,16 @@ namespace PokemonIVCalculator
             }
 
             int id = Ids[name];
-            pictureBox2.Image = Image.FromFile("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/img/sprites/" + id + ".gif");
+
+            
+            // FileNotFoundExceptions are handled here.
+            if (File.Exists("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/img/sprites/" + id + ".gif"))
+            {
+                pictureBox2.Image = Image.FromFile("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/img/sprites/" + id + ".gif");
+            }
+
+                
+          
 
             return;
         }
