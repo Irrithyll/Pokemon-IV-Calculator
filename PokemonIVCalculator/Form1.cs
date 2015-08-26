@@ -1147,9 +1147,16 @@ namespace PokemonIVCalculator
             double SPDIVMin = Math.Ceiling((Math.Ceiling(SPDStat / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
             double SPDIVMax = Math.Floor((Math.Ceiling((SPDStat + 0.99999) / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
 
-            if (HPIVMax < 0 || ATKIVMax < 0 || DEFIVMax < 0 || SPATKIVMax < 0 || SPDEFIVMax < 0 || SPDIVMax < 0)
+            if (HPIVMax < 0 || ATKIVMax < 0 || DEFIVMax < 0 || SPATKIVMax < 0 || SPDEFIVMax < 0 || SPDIVMax < 0 ||
+                HPIVMax > 31 || ATKIVMax > 31 || DEFIVMax > 31 || SPATKIVMax > 31 || SPDEFIVMax > 31 || SPDIVMax > 31)
             {
                 labelerror.Text = "Error : Double check your Stats and EVs";
+                IVHP.Text = "-";
+                IVATK.Text = "-";
+                IVDEF.Text = "-";
+                IVSPATK.Text = "-";
+                IVSPDEF.Text = "-";
+                IVSPD.Text = "-";
             }
             else {
                 IVHP.Text = (HPIVMin + "-" + HPIVMax).ToString();
