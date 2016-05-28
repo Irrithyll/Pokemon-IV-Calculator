@@ -1,0 +1,14 @@
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\PokemonIVCalculator.exe.config
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\PokemonIVCalculator.exe
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\PokemonIVCalculator.pdb
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\mscorlib.dll
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\normidna.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\normnfc.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\normnfd.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\normnfkc.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Release\normnfkd.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Release\PokemonIVCalculator.Form1.resources
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Release\PokemonIVCalculator.Properties.Resources.resources
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Release\PokemonIVCalculator.csproj.GenerateResource.Cache
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Release\PokemonIVCalculator.exe
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Release\PokemonIVCalculator.pdb

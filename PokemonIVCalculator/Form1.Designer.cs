@@ -319,7 +319,6 @@
             // imgSpecies
             // 
             this.imgSpecies.BackColor = System.Drawing.Color.Transparent;
-            this.imgSpecies.Image = global::PokemonIVCalculator.Properties.Resources.nopokemonimage;
             this.imgSpecies.Location = new System.Drawing.Point(339, 68);
             this.imgSpecies.Name = "imgSpecies";
             this.imgSpecies.Size = new System.Drawing.Size(112, 117);
@@ -357,7 +356,7 @@
             // 
             this.labelerror.AutoSize = true;
             this.labelerror.ForeColor = System.Drawing.Color.Red;
-            this.labelerror.Location = new System.Drawing.Point(184, 348);
+            this.labelerror.Location = new System.Drawing.Point(38, 68);
             this.labelerror.Name = "labelerror";
             this.labelerror.Size = new System.Drawing.Size(0, 13);
             this.labelerror.TabIndex = 30;

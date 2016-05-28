@@ -9,80 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace PokemonIVCalculator
 {
     public partial class Form1 : Form
 
     {
-        /*
-        hardy,2,2
-        bold,2,3
-        modest,2,4
-        calm,2,5
-        timid,2,6
-        lonely,3,2
-         * 
-        docile,3,3
-        mild,3,4
-        gentle,3,5
-        hasty,3,6
-        adamant,4,2
-        impish,4,3
-        bashful,4,4
-        careful,4,5
-        rash,5,4
-        jolly,4,6
-        naughty,5,2
-        lax,5,3
-        quirky,5,5
-        naive,5,6
-        brave,6,2
-        relaxed,6,3
-        quiet,6,4
-        sassy,6,5
-        serious,6,6
-        */
-        /*
-        public readonly static IDictionary<string, string> Natures = new Dictionary<string, string>{
-            {"Hardy", "22"},
-            {"Bold", "23"},
-            {"Modest", "24"},
-            {"Calm","25"},
-            {"Timid", "26"},
-            {"Lonely", "32"},
-            {"Docile", "33"},
-            {"Mild", "34"},
-            {"Gentle", "35"},
-            {"Hasty", "36"},
-            {"Adamant", "42"},
-            {"Impish", "43"},
-            {"Bashful", "44"},
-            {"Careful", "45"},
-            {"Rash", "54"},
-            {"Jolly", "46"},
-            {"Naughty", "52"},
-            {"Lax", "53"},
-            {"Quirky","55"},
-            {"Naive", "56"},
-            {"Brave", "62"},
-            {"Relaxed", "63"},
-            {"Quiet", "64"},
-            {"Sassy", "65"},
-            {"Serious", "66"}   
-        };
-        */
-
-
-
-        string[] natures = new string[]{
-        "HARDY","BOLD","MODEST","CALM","TIMID","LONELY","DOCILE","MILD","GENTLE","HASTY","ADAMANT","IMPISH",
-        "BASHFUL","CAREFUL","RASH","JOLLY","NAUGHTY","LAX","QUIRKY","NAIVE","BRAVE","RELAXED","QUIET","SASSY","SERIOUS"
-        };
-
-
-        /*POKEMON NAMES & IDs*/
-        public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>
+        public readonly static IDictionary<string, int> pkmnIDs = new Dictionary<string, int>
         {
             { "bulbasaur", 001 },
             { "ivysaur", 002 },
@@ -809,6 +743,13 @@ namespace PokemonIVCalculator
             { "yveltal", 717 },
             { "zygarde", 718 }
         };
+        
+
+        /*POKEMON NATURES*/
+        string[] natures = new string[]{
+        "HARDY","BOLD","MODEST","CALM","TIMID","LONELY","DOCILE","MILD","GENTLE","HASTY","ADAMANT","IMPISH",
+        "BASHFUL","CAREFUL","RASH","JOLLY","NAUGHTY","LAX","QUIRKY","NAIVE","BRAVE","RELAXED","QUIET","SASSY","SERIOUS"
+        };
 
 
 
@@ -826,9 +767,7 @@ namespace PokemonIVCalculator
             int line_num = (pkmn_id - 1) * 6;
 
             for (int i = 0; i < 6; i++) {
-                stats_str[i] = System.IO.File.ReadLines(path + "/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
-                //stats_str[i] = System.IO.File.ReadLines("$(ProjectDir)../PokemonIVCalculator/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
-                
+                stats_str[i] = System.IO.File.ReadLines(path + "/data/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
                 line_num++;
             }
 
@@ -841,8 +780,6 @@ namespace PokemonIVCalculator
                 baseStats[i] = Int32.Parse(output[2]);
                 Console.WriteLine(baseStats[i]);
             }
-
-
 
             return baseStats;
         }
@@ -922,13 +859,17 @@ namespace PokemonIVCalculator
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            BoxSpecies.DataSource = new BindingSource(Ids, null);
+            BoxSpecies.DataSource = new BindingSource(pkmnIDs, null);
             BoxSpecies.DisplayMember = "Key";
             BoxSpecies.ValueMember = "Value";
+            BoxSpecies.Refresh();
+            BoxSpecies.Update(); 
 
             BoxNature.DataSource = new BindingSource(natures, null);
             BoxNature.DisplayMember = "Key";
             BoxNature.ValueMember = "Value";
+            BoxNature.Refresh();
+            BoxNature.Update();
 
         }
 
@@ -1009,48 +950,56 @@ namespace PokemonIVCalculator
             }
         }
         public bool doesPokemonExist(string speciesname) {
-            if (Ids.ContainsKey(speciesname)) {
+            if (pkmnIDs.ContainsKey(speciesname)) {
                 return true;
             }
             return false;
         }
+
+        private string cleanName(string name) {
+            char[] charsToTrim = { '[', ' ', ']', ',', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            name = name.Trim(charsToTrim);
+            name = name.ToLower();
+            return name;
+        }
+
+        private bool checkStatsNotEmpty() {
+            if (statHP.Text == "" || statATK.Text == "" || statDEF.Text == "" || statSPATK.Text == "" || statSPDEF.Text == "")
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
-
+            //update the image on the form
             updatePokemonImage();
-            char[] charsToTrim = { '[', ' ', ']', ',', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-            string nameraw = BoxSpecies.Text;
-            string name = nameraw.Trim(charsToTrim);
-            name = name.ToLower();
-
+            
+            //clean the name of the pokemon
+            string name = BoxSpecies.Text;
+            name = cleanName(name);
+ 
+            //check pokemon exists
             if (!doesPokemonExist(name)) {
                 labelerror.Text = "Pokemon Name does not exist!";
                 return;
             }
 
-            int id = Ids[name];
+            //get the id of the Pokemon by name
+            int id = pkmnIDs[name];
 
+            //clear error messages
             labelerror.Text = "";
 
-            if (statHP.Text == "" || statATK.Text == "" || statDEF.Text == "" || statSPATK.Text == "" || statSPDEF.Text == "")
-            {
+            //check all stats are not blank
+            if (!checkStatsNotEmpty()) {
                 labelerror.Text = "Error : Please fill in all stats";
-
-        
             }
             else {
-
-                int[] results = findBaseStats(id);
-                /*
-                Console.WriteLine(results[0]);
-                Console.WriteLine(results[1]);
-                Console.WriteLine(results[2]);
-                Console.WriteLine(results[3]);
-                Console.WriteLine(results[4]);
-                Console.WriteLine(results[5]);
-                */
+                int[] baseStats = findBaseStats(id);
                 /*Actually calculate the IVs!!*/
-                calculateIVs(results);
+                calculateIVs(baseStats);
                  
             }
         }
@@ -1058,28 +1007,28 @@ namespace PokemonIVCalculator
         private void BoxSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
             updatePokemonImage();
-
-            BoxSpecies.Text.ToUpper();
-
-            }
+            //BoxSpecies.Text = BoxSpecies.Text.ToUpper();
+        }
 
         public void updatePokemonImage() {
             string path = Directory.GetCurrentDirectory();
+            //reset error text
             labelerror.Text = "";
-            char[] charsToTrim = { '[', ' ', ']', ',', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-            string nameraw = BoxSpecies.Text;
-            string name = nameraw.Trim(charsToTrim);
-            name = name.ToLower();
+            
+            string name = BoxSpecies.Text;
+            //clean name
+            name = cleanName(name);
 
+            //check pokemon exists
             if (!doesPokemonExist(name))
             {
                 labelerror.Text = "Pokemon Name does not exist!";
                 return;
             }
 
-            int id = Ids[name];
+            //get the pokemon's ID by name
+            int id = pkmnIDs[name];
 
-            
             // FileNotFoundExceptions are handled here.
             if (File.Exists(path + "/img/sprites/" + id + ".gif"))
             {
@@ -1092,11 +1041,12 @@ namespace PokemonIVCalculator
         private void BoxSpecies_TextChanged(object sender, EventArgs e)
         {
             updatePokemonImage();
-
         }
 
         public void calculateIVs(int[] baseStats) {
+
             labelerror.Text = "";
+            //parse all the text into integers
             int HPEV = Int32.Parse(EVHP.Text); ;
             int HPStat = Int32.Parse(statHP.Text); ;
  
@@ -1123,7 +1073,7 @@ namespace PokemonIVCalculator
             float natSPDEF = 1;
             float natSPD = 1;
 
-            string output = "";
+            //string output = "";
             string nature = BoxNature.Text;
 
             /*Positive Nature Buffs*/
@@ -1164,6 +1114,7 @@ namespace PokemonIVCalculator
                 IVSPD.Text = "-";
             }
             else {
+                //display IVs
                 IVHP.Text = (HPIVMax).ToString();
                 IVATK.Text = (ATKIVMax).ToString();
                 IVDEF.Text = (DEFIVMax).ToString();
@@ -1171,31 +1122,18 @@ namespace PokemonIVCalculator
                 IVSPDEF.Text = (SPDEFIVMax).ToString();
                 IVSPD.Text = (SPDIVMax).ToString();
 
+                //print output to output textbox
+                textBox2.Text = BoxSpecies.Text.ToUpper() + "," + BoxNature.Text + "," + (HPIVMax).ToString() + "," + (ATKIVMax).ToString() + "," + (DEFIVMax).ToString() + "," +
+                    (SPATKIVMax).ToString() + "," + (SPDEFIVMax).ToString() + "," + (SPDIVMax).ToString();
+
             }
-
-            //print anyway for debugging
-            /*
-            IVHP.Text = (HPIVMin + "-" + HPIVMax).ToString();
-            IVATK.Text = (ATKIVMin + "-" + ATKIVMax).ToString();
-            IVDEF.Text = (DEFIVMin + "-" + DEFIVMax).ToString();
-            IVSPATK.Text = (SPATKIVMin + "-" + SPATKIVMax).ToString();
-            IVSPDEF.Text = (SPDEFIVMin + "-" + SPDEFIVMax).ToString();
-            IVSPD.Text = (SPDIVMin + "-" + SPDIVMax).ToString();
-            */
-            Console.WriteLine(level);
-            
-            //print output to output textbox
-            textBox2.Text = (HPIVMax).ToString() + "," + (ATKIVMax).ToString() + "," + (DEFIVMax).ToString() + "," +
-                (SPATKIVMax).ToString() + "," + (SPDEFIVMax).ToString() + "," + (SPDIVMax).ToString();
-
             return;
-
-            
         }
 
+        //copy output to clipboard when COPY is clicked
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == null) { 
+            if (textBox2.Text == null || textBox2.Text == "") { 
                 return;
             }
             else{
