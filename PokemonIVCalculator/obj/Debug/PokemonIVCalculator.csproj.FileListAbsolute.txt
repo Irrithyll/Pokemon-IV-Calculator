@@ -16,3 +16,9 @@ B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\De
 B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.Properties.Resources.resources
 B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.csproj.GenerateResource.Cache
 B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\obj\Debug\PokemonIVCalculator.pdb
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\mscorlib.dll
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\normidna.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\normnfc.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\normnfd.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\normnfkc.nlp
+B:\Users\Zadow\Documents\GitHub\Pokemon-IV-Calculator\PokemonIVCalculator\bin\Debug\normnfkd.nlp

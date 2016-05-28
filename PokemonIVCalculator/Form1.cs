@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections;
 
 namespace PokemonIVCalculator
 {
@@ -72,11 +73,15 @@ namespace PokemonIVCalculator
         };
         */
 
+
+
         string[] natures = new string[]{
-        "Hardy","Bold","Modest","Calm","Timid","Lonely","Docile","Mild","Gentle","Hasty","Adamant","Impish",
-        "Bashful","Careful","Rash","Jolly","Naughty","Lax","Quirky","Naive","Brave","Relaxed","Quiet","Sassy","Serious"
+        "HARDY","BOLD","MODEST","CALM","TIMID","LONELY","DOCILE","MILD","GENTLE","HASTY","ADAMANT","IMPISH",
+        "BASHFUL","CAREFUL","RASH","JOLLY","NAUGHTY","LAX","QUIRKY","NAIVE","BRAVE","RELAXED","QUIET","SASSY","SERIOUS"
         };
 
+
+        /*POKEMON NAMES & IDs*/
         public readonly static IDictionary<string, int> Ids = new Dictionary<string, int>
         {
             { "bulbasaur", 001 },
@@ -813,13 +818,17 @@ namespace PokemonIVCalculator
 
         }
 
-        private int[] findBaseStats(int pkmn_id) { 
+        private int[] findBaseStats(int pkmn_id) {
+            string path = Directory.GetCurrentDirectory();
+
             int[] stats_int = new int[]{0,0,0,0,0,0};
             string[] stats_str = new string[] { "0", "0", "0", "0", "0", "0" }; ;
             int line_num = (pkmn_id - 1) * 6;
 
             for (int i = 0; i < 6; i++) {
-                stats_str[i] = System.IO.File.ReadLines("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
+                stats_str[i] = System.IO.File.ReadLines(path + "/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
+                //stats_str[i] = System.IO.File.ReadLines("$(ProjectDir)../PokemonIVCalculator/PokemonBaseStats.txt").Skip(line_num).Take(1).First();
+                
                 line_num++;
             }
 
@@ -920,7 +929,6 @@ namespace PokemonIVCalculator
             BoxNature.DataSource = new BindingSource(natures, null);
             BoxNature.DisplayMember = "Key";
             BoxNature.ValueMember = "Value";
-
 
         }
 
@@ -1033,14 +1041,14 @@ namespace PokemonIVCalculator
             else {
 
                 int[] results = findBaseStats(id);
-                
+                /*
                 Console.WriteLine(results[0]);
                 Console.WriteLine(results[1]);
                 Console.WriteLine(results[2]);
                 Console.WriteLine(results[3]);
                 Console.WriteLine(results[4]);
                 Console.WriteLine(results[5]);
-
+                */
                 /*Actually calculate the IVs!!*/
                 calculateIVs(results);
                  
@@ -1051,9 +1059,12 @@ namespace PokemonIVCalculator
         {
             updatePokemonImage();
 
+            BoxSpecies.Text.ToUpper();
+
             }
 
         public void updatePokemonImage() {
+            string path = Directory.GetCurrentDirectory();
             labelerror.Text = "";
             char[] charsToTrim = { '[', ' ', ']', ',', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             string nameraw = BoxSpecies.Text;
@@ -1070,13 +1081,10 @@ namespace PokemonIVCalculator
 
             
             // FileNotFoundExceptions are handled here.
-            if (File.Exists("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/img/sprites/" + id + ".gif"))
+            if (File.Exists(path + "/img/sprites/" + id + ".gif"))
             {
-                pictureBox2.Image = Image.FromFile("C:/Users/Zadow/Documents/Visual Studio 2013/Projects/PokemonIVCalculator/PokemonIVCalculator/img/sprites/" + id + ".gif");
+                pictureBox2.Image = Image.FromFile(path + "/img/sprites/" + id + ".gif");
             }
-
-                
-          
 
             return;
         }
@@ -1084,13 +1092,14 @@ namespace PokemonIVCalculator
         private void BoxSpecies_TextChanged(object sender, EventArgs e)
         {
             updatePokemonImage();
+
         }
 
         public void calculateIVs(int[] baseStats) {
             labelerror.Text = "";
+            int HPEV = Int32.Parse(EVHP.Text); ;
             int HPStat = Int32.Parse(statHP.Text); ;
-            int HPEV = Int32.Parse(EVHP.Text);;
-
+ 
             int ATKEV = Int32.Parse(EVATK.Text);
             int ATKStat = Int32.Parse(statATK.Text);
 
@@ -1114,48 +1123,34 @@ namespace PokemonIVCalculator
             float natSPDEF = 1;
             float natSPD = 1;
 
+            string output = "";
             string nature = BoxNature.Text;
 
             /*Positive Nature Buffs*/
-            if (nature == "Lonely" || nature == "Brave" || nature == "Adamant" || nature == "Naughty") { natATK = 1.1f; }
-            if (nature == "Bold" || nature == "Relaxed" || nature == "Impish" || nature == "Lax") { natDEF = 1.1f; }
-            if (nature == "Timid" || nature == "Hasty" || nature == "Jolly" || nature == "Naive") { natSPD = 1.1f; }
-            if (nature == "Modest" || nature == "Mild" || nature == "Quiet" || nature == "Rash") { natSPATK = 1.1f; }
-            if (nature == "Calm" || nature == "Gentle" || nature == "Sassy" || nature == "Careful") { natATK = 1.1f; }
+            if (nature == "LONELY" || nature == "BRAVE" || nature == "ADAMANT" || nature == "NAUGHTY") { natATK = 1.1f; } //Attack pos+ natures
+            if (nature == "BOLD" || nature == "RELAXED" || nature == "IMPISH" || nature == "LAX") { natDEF = 1.1f; } //Defense pos+ natures
+            if (nature == "TIMID" || nature == "HASTY" || nature == "JOLLY" || nature == "NAIVE") { natSPD = 1.1f; }  //Speed pos+ natures
+            if (nature == "MODEST" || nature == "MILD" || nature == "QUIET" || nature == "RASH") { natSPATK = 1.1f; } //SpecialAttack pos+ natures
+            if (nature == "CALM" || nature == "GENTLE" || nature == "SASSY" || nature == "CAREFUL") { natSPDEF = 1.1f; } //SpecialDefense pos+ natures
       
             /*Negative Nature DeBuffs*/
-            if (nature == "Bold" || nature == "Timid" || nature == "Modest" || nature == "Calm") { natATK = 0.9f; }
-            if (nature == "Lonely" || nature == "Hasty" || nature == "Mild" || nature == "Gentle") { natDEF = 0.9f; }
-            if (nature == "Adamant" || nature == "Impish" || nature == "Jolly" || nature == "Careful") { natSPATK = 0.9f; }
-            if (nature == "Naughty" || nature == "Lax" || nature == "Naive" || nature == "Rash") { natSPDEF = 0.9f; }
-            if (nature == "Brave" || nature == "Relaxed" || nature == "Quiet" || nature == "Sassy") { natSPD = 0.9f; }
+            if (nature == "BOLD" || nature == "TIMID" || nature == "MODEST" || nature == "CALM") { natATK = 0.9f; } //Attack neg- natures
+            if (nature == "LONELY" || nature == "HASTY" || nature == "MILD" || nature == "GENTLE") { natDEF = 0.9f; } //Defense neg- natures
+            if (nature == "BRAVE" || nature == "RELAXED" || nature == "QUIET" || nature == "SASSY") { natSPD = 0.9f; } //Speed neg- natures
+            if (nature == "ADAMANT" || nature == "IMPISH" || nature == "JOLLY" || nature == "CAREFUL") { natSPATK = 0.9f; } //SpecialAttack neg- natures
+            if (nature == "NAUGHTY" || nature == "LAX" || nature == "NAIVE" || nature == "RASH") { natSPDEF = 0.9f; } //SpecialDefense neg- natures
+            
 
-            /*calculate HP IV*//*
-            This is the right formula (there is a minimum and maximum.)
-            HP IV Min=Ceiling(((Stat-10-Level)*(100/Level))-2*Base-EP)
-            HP IV Max=Floor((Stat-10+0.99999...-Level)*(100/Level)-2*Base-EP)
+            double HPIVMax = 0;
 
-            Other IV Min=Ceiling((Ceiling(Stat/Nature)-5)*(100/Level)-2*Base-EP)
-            Other IV Max=Floor((Ceiling((Stat+0.99999...)/Nature)-5)*(100/Level)-2*Base-EP)
-            */
+            double ATKIVMax = ((Math.Ceiling(ATKStat / natATK) - 5) * 100 / level) - 2 * baseStats[1] - Math.Floor(ATKEV / 4f);
+            double DEFIVMax = ((Math.Ceiling(DEFStat / natDEF) - 5) * 100 / level) - 2 * baseStats[2] - Math.Floor(DEFEV / 4f); ;
+            double SPATKIVMax = ((Math.Ceiling(SPATKStat / natSPATK) - 5) * 100 / level) - 2 * baseStats[3] - Math.Floor(SPATKEV / 4f); ; ;
+            double SPDEFIVMax = ((Math.Ceiling(SPDEFStat / natSPDEF) - 5) * 100 / level) - 2 * baseStats[4] - Math.Floor(SPDEFEV / 4f);
+            double SPDIVMax = ((Math.Ceiling(SPDStat / natSPD) - 5) * 100 / level) - 2 * baseStats[5] - Math.Floor(SPDEV / 4f);
 
-            double HPIVMin = Math.Ceiling(((HPStat - 10d - level) * (100 / level)) - 2 * baseStats[0] - HPEV);
-            double HPIVMax = Math.Floor((HPStat - 10 + 0.99999 - level) * (100 / level) - 2 * baseStats[0] - HPEV);
 
-            double ATKIVMin = Math.Ceiling((Math.Ceiling(ATKStat / natATK) - 5) * (100 / level) - 2 * baseStats[1] - ATKEV);
-            double ATKIVMax = Math.Floor((Math.Ceiling((ATKStat + 0.99999) / natATK) - 5) * (100 / level) - 2 * baseStats[1] - ATKEV);
-
-            double DEFIVMin = Math.Ceiling((Math.Ceiling(DEFStat / natDEF) - 5) * (100 / level) - 2 * baseStats[2] - DEFEV);
-            double DEFIVMax = Math.Floor((Math.Ceiling((DEFStat + 0.99999) / natDEF) - 5) * (100 / level) - 2 * baseStats[2] - DEFEV); 
-
-            double SPATKIVMin = Math.Ceiling((Math.Ceiling(SPATKStat / natSPATK) - 5) * (100 / level) - 2 * baseStats[3] - SPATKEV);
-            double SPATKIVMax = Math.Floor((Math.Ceiling((SPATKStat + 0.99999) / natSPATK) - 5) * (100 / level) - 2 * baseStats[3] - SPATKEV);
-
-            double SPDEFIVMin = Math.Ceiling((Math.Ceiling(SPDEFStat / natSPDEF) - 5) * (100 / level) - 2 * baseStats[4] - SPDEFEV);
-            double SPDEFIVMax = Math.Floor((Math.Ceiling((SPDEFStat + 0.99999) / natSPDEF) - 5) * (100 / level) - 2 * baseStats[4] - SPDEFEV);
-
-            double SPDIVMin = Math.Ceiling((Math.Ceiling(SPDStat / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
-            double SPDIVMax = Math.Floor((Math.Ceiling((SPDStat + 0.99999) / natSPD) - 5) * (100 / level) - 2 * baseStats[5] - SPDEV);
+            ATKIVMax = Math.Round(ATKIVMax);
 
             if (HPIVMax < 0 || ATKIVMax < 0 || DEFIVMax < 0 || SPATKIVMax < 0 || SPDEFIVMax < 0 || SPDIVMax < 0 ||
                 HPIVMax > 31 || ATKIVMax > 31 || DEFIVMax > 31 || SPATKIVMax > 31 || SPDEFIVMax > 31 || SPDIVMax > 31)
@@ -1169,17 +1164,43 @@ namespace PokemonIVCalculator
                 IVSPD.Text = "-";
             }
             else {
-                IVHP.Text = (HPIVMin + "-" + HPIVMax).ToString();
-                IVATK.Text = (ATKIVMin + "-" + ATKIVMax).ToString();
-                IVDEF.Text = (DEFIVMin + "-" + DEFIVMax).ToString();
-                IVSPATK.Text = (SPATKIVMin + "-" + SPATKIVMax).ToString();
-                IVSPDEF.Text = (SPDEFIVMin + "-" + SPDEFIVMax).ToString();
-                IVSPD.Text = (SPDIVMin + "-" + SPDIVMax).ToString();
+                IVHP.Text = (HPIVMax).ToString();
+                IVATK.Text = (ATKIVMax).ToString();
+                IVDEF.Text = (DEFIVMax).ToString();
+                IVSPATK.Text = (SPATKIVMax).ToString();
+                IVSPDEF.Text = (SPDEFIVMax).ToString();
+                IVSPD.Text = (SPDIVMax).ToString();
 
             }
 
+            //print anyway for debugging
+            /*
+            IVHP.Text = (HPIVMin + "-" + HPIVMax).ToString();
+            IVATK.Text = (ATKIVMin + "-" + ATKIVMax).ToString();
+            IVDEF.Text = (DEFIVMin + "-" + DEFIVMax).ToString();
+            IVSPATK.Text = (SPATKIVMin + "-" + SPATKIVMax).ToString();
+            IVSPDEF.Text = (SPDEFIVMin + "-" + SPDEFIVMax).ToString();
+            IVSPD.Text = (SPDIVMin + "-" + SPDIVMax).ToString();
+            */
+            Console.WriteLine(level);
+            
+            //print output to output textbox
+            textBox2.Text = (HPIVMax).ToString() + "," + (ATKIVMax).ToString() + "," + (DEFIVMax).ToString() + "," +
+                (SPATKIVMax).ToString() + "," + (SPDEFIVMax).ToString() + "," + (SPDIVMax).ToString();
+
             return;
 
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text == null) { 
+                return;
+            }
+            else{
+                System.Windows.Forms.Clipboard.SetText(textBox2.Text);
+            }
         }
 
     }
