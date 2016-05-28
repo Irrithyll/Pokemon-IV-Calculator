@@ -1,7 +1,11 @@
 
+A simple Pokemon IV (Individual Value) Calculator, used to determine a Pokemon's Individual Values based on their
+stats, effort values, and nature. Calculates IVs for all Pokemon up to and including generation 6.
+
+
 NOTE: This program does NOT come bundled with the sprites! Please download at the following link
 http://media.pldh.net/docs/monster_sprites_gen5_animated.rar
-and insert into the img/sprites directory.
+and extract into the img/sprites directory.
 
 
 
